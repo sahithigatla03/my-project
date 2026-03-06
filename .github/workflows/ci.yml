@@ -1,20 +1,27 @@
-name: Java CI Demo
+name: Java CI with Docker
+
 on:
   push:
+    branches: [ master ]
+  pull_request:
+    branches: [ master ]
 
 jobs:
-  build:
+  build-java:
     runs-on: ubuntu-latest
 
     steps:
       - name: Checkout repository
         uses: actions/checkout@v3
 
-      - name: Setup Java
+      - name: Set up Java
         uses: actions/setup-java@v3
         with:
           distribution: 'temurin'
           java-version: '17'
 
-      - name: Build with Gradle
+      - name: Build project with Gradle
         run: ./gradlew build
+
+      - name: Build Docker image
+        run: docker build -t demo-app .
